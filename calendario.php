@@ -22,7 +22,7 @@
                     $linha .= "<td></td>";
                 }
             }
-            
+
             $linha .= "<tr>";
             return $linha;
         }
