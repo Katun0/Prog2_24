@@ -1,39 +1,47 @@
 <?php session_start(); ?>
 
 <?php 
-    if(isset($_GET['nome']) && $_GET['nome'] != ''){
+include "conexao.php";
+include "auxiliares.php";
+
+
+    if(isset($_POST['nome']) && $_POST['nome'] != ''){
         $tarefa = [];
-        $tarefa['nome'] = $_GET['nome'];
+        $tarefa['nome'] = $_POST['nome'];
     
-        if(isset($_GET['data']))
+        if(isset($_POST['descricao']))
         {
-            $tarefa['data'] = $_GET['data'];
+            $tarefa['descricao'] = $_POST['descricao'];
         } else {
-            $tarefa['data'] = '';
+            $tarefa['descricao'] = '';
         }
     
         
-        if(isset($_GET['prioridade']))
+        if(isset($_POST['prioridade']))
         {
-            $tarefa['prioridade'] = $_GET['prioridade'];
+            $tarefa['prioridade'] = converte_data_para_banco($_POST['prioridade']);
         } else {
             $tarefa['prioridade'] = '';
         }
         
-        if(isset($_GET['status']))
+        if(isset($_POST['prazo']))
         {
-            $tarefa['status'] = $_GET['status'];
+            $tarefa['prazo'] = $_POST['prazo'];
         } else {
-            $tarefa['status'] = '';
-        }
-    
-        $_SESSION['lista_tarefas'][] = $tarefa;        
-        }
-        if(isset($_SESSION['lista_tarefas'])){
-            $lista_tarefas = $_SESSION['lista_tarefas'];
-        } else {
-            $lista_tarefas = [];
+            $tarefa['prazo'] = '';
         }
 
-        include 'template.php';
+        if(isset($_POST['concluida']))
+        {
+            $tarefa['concluida'] = 1;
+        } else {
+            $tarefa['concluida'] = 0;
+        }
+    
+        gravar_tarefa($connection, $tarefa);     
+    } 
+        
+    $lista_tarefas = busca_tarefas($connection);
+    
+    include 'template.php';
 ?>
