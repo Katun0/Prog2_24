@@ -41,7 +41,7 @@ include "auxiliares.php";
         gravar_tarefa($connection, $tarefa);     
     } 
         
-    $lista_tarefas = busca_tarefas($connection);
+    $lista_tarefas = busca_tarefas($connection, $tarefa);
     
     include 'template.php';
 ?>
